@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: ./mysql-local
+
 jobs:
   build-test-push:
     runs-on: ubuntu-latest
@@ -57,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: target/site/jacoco/
+          path: mysql-local/target/site/jacoco/
 
       # ── Paso 6: Construir el .jar para la imagen Docker ──
       - name: Build del proyecto
