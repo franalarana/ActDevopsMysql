@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Estudiante — Actividad 2.3</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: #1f2328;
+    background: #fff;
+    padding: 14mm 16mm 14mm 16mm;
+  }
+
+  /* ── Cabecera ── */
+  .cover {
+    background: #1a3a5c;
+    color: white;
+    padding: 22px 26px 20px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+  }
+  .cover h1 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    margin: 0 0 4px 0;
+    padding: 0;
+  }
+  .cover .subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 3px;
+  }
+  .cover .badges {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    padding: 2px 9px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.9);
+  }
+  .cover .badge.green { background: rgba(34,197,94,0.25); border-color: rgba(34,197,94,0.5); }
+
+  /* ── Tipografía ── */
+  h1 {
+    font-size: 17px;
+    color: #1a3a5c;
+    border-bottom: 2px solid #3b82d4;
+    padding-bottom: 5px;
+    margin: 26px 0 10px;
+    page-break-after: avoid;
+  }
+  h2 {
+    font-size: 14px;
+    color: #1a3a5c;
+    border-bottom: 1px solid #d0d7de;
+    padding-bottom: 4px;
+    margin: 20px 0 8px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12px;
+    color: #3b82d4;
+    font-weight: 600;
+    margin: 14px 0 5px;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11px;
+    color: #57606a;
+    font-weight: 600;
+    font-style: italic;
+    margin: 10px 0 4px;
+  }
+  p { margin-bottom: 7px; }
+
+  /* ── Blockquote ── */
+  blockquote {
+    border-left: 4px solid #3b82d4;
+    background: #eef4ff;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-radius: 0 4px 4px 0;
+    color: #2d3a4a;
+    font-size: 11px;
+  }
+  blockquote p { margin: 0; }
+  blockquote.warn {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+  }
+
+  /* ── Código inline ── */
+  code {
+    font-family: "SFMono-Regular", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 10px;
+    background: #f0f3f7;
+    border: 1px solid #d0d7de;
+    border-radius: 3px;
+    padding: 1px 4px;
+    color: #c0392b;
+  }
+
+  /* ── Bloques de código ── */
+  pre {
+    background: #1e2533;
+    color: #d0d8f0;
+    border-radius: 5px;
+    padding: 10px 13px;
+    margin: 8px 0;
+    font-size: 9.5px;
+    line-height: 1.55;
+    page-break-inside: avoid;
+    overflow-x: hidden;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  pre.bash code, pre.sh code { color: #a9dc76; }
+  pre.java code              { color: #ffd866; }
+  pre.xml code               { color: #78dce8; }
+  pre.yaml code, pre.yml code{ color: #ab9df2; }
+  pre.text code              { color: #cfcfcf; }
+
+  /* ── Tablas ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 10.5px;
+    page-break-inside: avoid;
+  }
+  th {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 6px 9px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 10.5px;
+  }
+  td {
+    padding: 5px 9px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f7f8fa; }
+
+  /* ── Listas ── */
+  ul, ol {
+    padding-left: 18px;
+    margin-bottom: 7px;
+  }
+  li { margin-bottom: 3px; }
+
+  /* ── Lista de verificación ── */
+  ul.checklist {
+    list-style: none;
+    padding-left: 4px;
+  }
+  ul.checklist li {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  ul.checklist li::before {
+    content: "☐";
+    color: #3b82d4;
+    font-size: 14px;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  /* ── Separadores ── */
+  hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+  }
+
+  /* ── Pie de página ── */
+  .footer {
+    margin-top: 36px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 9.5px;
+    color: #8b949e;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 0; }
+    h1, h2 { page-break-before: auto; }
+    pre, table, blockquote { page-break-inside: avoid; }
+    .cover { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cabecera -->
+<div class="cover">
+  <h1>🧪 Guía del Estudiante — Pruebas Unitarias, JaCoCo y Pipeline CI</h1>
+  <div class="subtitle">Asignatura DevOps | Actividad 2.3 — Asegurando calidad en nuestro código</div>
+  <div class="badges">
+    <span class="badge">DUOC UC · DevOps 003D</span>
+    <span class="badge green">JUnit 5 · Mockito · JaCoCo</span>
+    <span class="badge">GitHub Actions</span>
+  </div>
+</div>
+
+<blockquote>
+<p><strong>¿Qué vas a lograr?</strong> Escribir pruebas unitarias para la API REST de Estudiantes, medir la cobertura de código con JaCoCo y automatizar todo en un pipeline de GitHub Actions que guarde el reporte de cobertura como artefacto. No necesitas levantar contenedores para ejecutar los tests — Maven los corre directamente en tu máquina.</p>
+</blockquote>
+
+<hr />
+
+<h2>🖥️ Paso 0 — Verifica tu entorno local</h2>
+<p>Antes de comenzar, confirma que tienes las herramientas necesarias:</p>
+<table>
+<thead><tr><th>Herramienta</th><th>¿Cómo verificar?</th><th>Versión mínima</th></tr></thead>
+<tbody>
+<tr><td><strong>Java JDK</strong></td><td><code>java -version</code></td><td>17</td></tr>
+<tr><td><strong>Maven</strong></td><td><code>mvn -version</code></td><td>3.8+</td></tr>
+<tr><td><strong>Git</strong></td><td><code>git --version</code></td><td>cualquiera</td></tr>
+<tr><td><strong>Docker Desktop</strong> o <strong>Podman</strong></td><td><code>docker --version</code> / <code>podman --version</code></td><td>cualquiera</td></tr>
+</tbody>
+</table>
+<blockquote><p>⚠️ <strong>Para los tests unitarios solo necesitas Java y Maven.</strong> Docker/Podman se usa más adelante para el pipeline completo y para levantar el sistema (como en la actividad anterior).</p></blockquote>
+
+<hr />
+
+<h2>📦 Paso 1 — Obtén el proyecto</h2>
+<p>Clona o descomprime el proyecto en tu máquina.</p>
+<pre class="text"><code>bdget/
+├── .github/
+│   └── workflows/
+│       └── main.yml          ← pipeline de GitHub Actions (lo modificarás aquí)
+├── src/
+│   ├── main/java/...         ← código fuente de la aplicación
+│   └── test/java/...         ← pruebas unitarias (aquí trabajarás)
+├── pom.xml                   ← dependencias y configuración de JaCoCo
+└── Dockerfile</code></pre>
+<p>Abre una terminal y entra a la raíz del proyecto:</p>
+<pre class="bash"><code>cd bdget</code></pre>
+<blockquote><p>⚠️ <strong>Todos los comandos Maven de esta guía se ejecutan desde la raíz del proyecto (donde está <code>pom.xml</code>).</strong></p></blockquote>
+
+<hr />
+
+<h2>🔍 Paso 2 — Entiende la estructura de pruebas existente</h2>
+<p>El proyecto ya tiene tres clases de test. Ábrelas y lee cada una antes de ejecutar nada.</p>
+<pre class="text"><code>src/test/java/com/example/bdget/
+├── BdgetApplicationTests.java          ← test de arranque del contexto
+├── model/
+│   └── StudentModelTest.java           ← prueba del modelo (getters/setters)
+├── service/
+│   └── StudentServiceImplTest.java     ← prueba del servicio con Mockito
+└── controller/
+    └── StudentControllerTest.java      ← prueba del controlador con MockMvc</code></pre>
+
+<h3>¿Qué tipo de prueba es cada una?</h3>
+<table>
+<thead><tr><th>Clase</th><th>Tipo</th><th>Herramienta</th><th>¿Levanta contexto Spring?</th></tr></thead>
+<tbody>
+<tr><td><code>StudentModelTest</code></td><td>Prueba unitaria pura</td><td>JUnit 5</td><td>❌ No</td></tr>
+<tr><td><code>StudentServiceImplTest</code></td><td>Prueba unitaria con mocks</td><td>JUnit 5 + Mockito</td><td>❌ No</td></tr>
+<tr><td><code>StudentControllerTest</code></td><td>Prueba de capa web</td><td>MockMvc + Mockito</td><td>✅ Parcial (<code>@WebMvcTest</code>)</td></tr>
+</tbody>
+</table>
+<blockquote><p>💡 <strong>Concepto clave — Prueba unitaria vs. de integración:</strong> Una prueba <em>unitaria</em> aísla un componente y reemplaza sus dependencias con <em>mocks</em>. Una prueba de <em>integración</em> levanta el sistema completo y conecta componentes reales. Esta actividad se enfoca en pruebas unitarias para detectar errores rápido y sin base de datos.</p></blockquote>
+
+<hr />
+
+<h2>🔍 Paso 3 — Lee el pom.xml: JaCoCo ya está configurado</h2>
+<p>Abre <code>pom.xml</code> y localiza el plugin de JaCoCo:</p>
+<pre class="xml"><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+    &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;0.8.10&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;!-- Instrumenta el bytecode ANTES de ejecutar tests --&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;prepare-agent&lt;/goal&gt;   &lt;!-- fase: initialize --&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+        &lt;!-- Genera el reporte HTML DESPUÉS de ejecutar tests --&gt;
+        &lt;execution&gt;
+            &lt;id&gt;report&lt;/id&gt;
+            &lt;phase&gt;test&lt;/phase&gt;             &lt;!-- se dispara al final de mvn test --&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;report&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+<p><strong>¿Qué hace JaCoCo?</strong></p>
+<p>JaCoCo instrumenta el bytecode compilado de tu aplicación. Cuando los tests se ejecutan, registra qué líneas, ramas e instrucciones fueron alcanzadas. Al terminar, genera un reporte HTML visual en <code>target/site/jacoco/index.html</code>.</p>
+
+<hr />
+
+<h2>🧪 Paso 4 — Ejecuta los tests localmente</h2>
+<h3>Ejecutar todos los tests y generar cobertura</h3>
+<pre class="bash"><code>mvn test</code></pre>
+<p>Maven ejecutará las 3 clases de test y, gracias a la configuración de JaCoCo en el <code>pom.xml</code>, generará el reporte automáticamente al finalizar.</p>
+<p>Salida esperada (resumen final):</p>
+<pre class="text"><code>[INFO] Results:
+[INFO]
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] --- jacoco-maven-plugin:0.8.10:report (report) ---
+[INFO] Loading execution data file .../target/jacoco.exec
+[INFO] Analyzed bundle 'bdget' with 5 classes
+[INFO] BUILD SUCCESS</code></pre>
+<blockquote><p>⏱️ La primera vez tarda ~1-2 minutos porque Maven descarga dependencias. Las siguientes veces es casi instantáneo.</p></blockquote>
+
+<hr />
+
+<h2>📊 Paso 5 — Abre el reporte de cobertura</h2>
+<p>El reporte HTML queda en: <code>target/site/jacoco/index.html</code></p>
+<p>Ábrelo con tu navegador:</p>
+
+<h3>Con Docker Desktop o Podman (macOS)</h3>
+<pre class="bash"><code>open target/site/jacoco/index.html</code></pre>
+
+<h3>En Linux</h3>
+<pre class="bash"><code>xdg-open target/site/jacoco/index.html</code></pre>
+
+<h3>En Windows (PowerShell)</h3>
+<pre class="bash"><code>start target\site\jacoco\index.html</code></pre>
+
+<h3>¿Qué verás en el reporte?</h3>
+<p>El reporte muestra una tabla con cada paquete y clase:</p>
+<pre class="text"><code>Package                         | Missed  | Coverage
+--------------------------------|---------|----------
+com.example.bdget.model         |    0    |  100%  ✅
+com.example.bdget.service       |    2    |   85%  🟡
+com.example.bdget.controller    |    0    |  100%  ✅
+com.example.bdget.repository    |   N/A   |   N/A  (interface)</code></pre>
+
+<table>
+<thead><tr><th>Color en JaCoCo</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td>🟢 Verde</td><td>Línea/rama ejecutada por al menos un test</td></tr>
+<tr><td>🔴 Rojo</td><td>Línea/rama NO ejecutada — posible gap de cobertura</td></tr>
+<tr><td>🟡 Amarillo</td><td>Rama parcialmente cubierta (ej: solo el <code>if</code>, no el <code>else</code>)</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🔎 Paso 6 — Analiza las pruebas existentes</h2>
+
+<h3>StudentModelTest.java — Prueba del modelo</h3>
+<pre class="java"><code>@Test
+void testGettersAndSetters() {
+    Student student = new Student();
+    student.setId(1L);
+    student.setName("John");
+    assertEquals(1L, student.getId());      // verifica getter id
+    assertEquals("John", student.getName()); // verifica getter name
+}</code></pre>
+<p>Esta prueba verifica que los getters y setters del modelo <code>Student</code> funcionen correctamente. Es una prueba unitaria pura: no usa Spring, no usa base de datos.</p>
+
+<h3>StudentServiceImplTest.java — Prueba del servicio</h3>
+<pre class="java"><code>@ExtendWith(MockitoExtension.class)  // activa Mockito
+class StudentServiceImplTest {
+
+    @Mock
+    private StudentRepository repository;  // MOCK: simula la BD
+
+    @InjectMocks
+    private StudentServiceImpl service;    // objeto real bajo prueba
+
+    @Test
+    void testUpdateStudentExists() {
+        when(repository.existsById(1L)).thenReturn(true);   // simula que el ID existe
+        when(repository.save(student)).thenReturn(student);
+        Student result = service.updateStudent(1L, student);
+        assertEquals(student, result);
+        verify(repository).save(student);  // verifica que se llamó a save()
+    }
+
+    @Test
+    void testUpdateStudentNotExists() {
+        when(repository.existsById(1L)).thenReturn(false);  // simula que NO existe
+        assertNull(service.updateStudent(1L, student));     // debe retornar null
+        verify(repository, never()).save(any());             // NO debe llamar a save()
+    }
+}</code></pre>
+<blockquote><p>💡 <strong><code>@Mock</code> vs <code>@InjectMocks</code>:</strong> <code>@Mock</code> crea un objeto falso que simula el comportamiento que tú definas. <code>@InjectMocks</code> crea el objeto real e inyecta automáticamente los mocks en él. Así probamos <code>StudentServiceImpl</code> sin tocar la base de datos.</p></blockquote>
+
+<h3>StudentControllerTest.java — Prueba del controlador</h3>
+<pre class="java"><code>@WebMvcTest(StudentController.class)  // levanta SOLO la capa web
+class StudentControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;    // simula peticiones HTTP sin servidor real
+
+    @MockBean
+    private StudentService service;  // mock del servicio (no se usa BD)
+
+    @Test
+    void testGetAllStudents() throws Exception {
+        when(service.getAllStudents()).thenReturn(Arrays.asList(student));
+
+        mockMvc.perform(get("/students"))        // GET /students
+               .andExpect(status().isOk())       // espera HTTP 200
+               .andExpect(content().json(...));  // verifica el JSON
+    }
+}</code></pre>
+<blockquote><p>💡 <strong><code>@WebMvcTest</code> vs <code>@SpringBootTest</code>:</strong> <code>@WebMvcTest</code> carga solo los beans de la capa web (controladores, filtros). No levanta JPA ni la base de datos. Es más rápido y apropiado para pruebas unitarias del controlador.</p></blockquote>
+
+<hr />
+
+<h2>✏️ Paso 7 — Agrega tus propias pruebas</h2>
+<p>Para mejorar la cobertura, puedes agregar casos que el código existente no cubre. Por ejemplo, el caso en que <code>getStudentById</code> no encuentra el estudiante:</p>
+<p>Abre <code>src/test/java/com/example/bdget/service/StudentServiceImplTest.java</code> y agrega:</p>
+<pre class="java"><code>@Test
+void testGetStudentByIdNotFound() {
+    when(repository.findById(99L)).thenReturn(Optional.empty());
+    Optional&lt;Student&gt; result = service.getStudentById(99L);
+    assertTrue(result.isEmpty());
+}</code></pre>
+<p>O en <code>StudentControllerTest.java</code>, el caso de estudiante no encontrado (404):</p>
+<pre class="java"><code>@Test
+void testGetStudentByIdNotFound() throws Exception {
+    when(service.getStudentById(99L)).thenReturn(Optional.empty());
+    mockMvc.perform(get("/students/99"))
+           .andExpect(status().isNotFound());
+}</code></pre>
+<p>Después de agregar tests, vuelve a ejecutar:</p>
+<pre class="bash"><code>mvn test</code></pre>
+<p>Y abre nuevamente <code>target/site/jacoco/index.html</code> para ver cómo mejoró la cobertura.</p>
+
+<hr />
+
+<h2>🔄 Paso 8 — Lee el pipeline de GitHub Actions</h2>
+<p>Abre <code>.github/workflows/main.yml</code> y analiza cada paso:</p>
+<pre class="yaml"><code>name: CI — Build, Test y Push a DockerHub
+
+on:
+  push:
+    branches: [main]      # se dispara al hacer push a main
+  pull_request:
+    branches: [main]      # también en pull requests
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:               # servicio MySQL para los tests
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: bdget_db
+          MYSQL_USER: bdget_user
+          MYSQL_PASSWORD: bdget_pass
+        options: --health-cmd="mysqladmin ping ..." --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4               # 1. Descarga el código
+
+      - uses: actions/setup-java@v4             # 2. Instala Java 17 + caché Maven
+        with:
+          java-version: '17'
+          cache: maven
+
+      - name: Ejecutar tests                    # 3. Corre tests + genera jacoco.exec
+        run: mvn test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/bdget_db?...
+
+      - name: Generar reporte de cobertura      # 4. jacoco.exec → HTML
+        run: mvn jacoco:report
+
+      - name: Subir reporte de cobertura        # 5. Guarda HTML como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+      - run: mvn package -DskipTests            # 6. Compila el .jar
+      - uses: docker/login-action@v3            # 7. Login en DockerHub
+      - run: docker build -t usuario/bdget-app:latest .   # 8. Build imagen
+      - run: docker push usuario/bdget-app:latest         # 9. Push a DockerHub</code></pre>
+
+<table>
+<thead><tr><th>Paso</th><th>¿Para qué sirve?</th></tr></thead>
+<tbody>
+<tr><td><code>actions/checkout@v4</code></td><td>Descarga el código del repositorio en el runner</td></tr>
+<tr><td><code>setup-java</code> + <code>cache: maven</code></td><td>Instala Java 17 y reutiliza dependencias descargadas</td></tr>
+<tr><td><code>mvn test</code></td><td>Corre todos los tests y genera <code>jacoco.exec</code></td></tr>
+<tr><td><code>mvn jacoco:report</code></td><td>Convierte <code>jacoco.exec</code> en HTML en <code>target/site/jacoco/</code></td></tr>
+<tr><td><code>upload-artifact@v4</code></td><td>Guarda el HTML como artefacto descargable en GitHub</td></tr>
+<tr><td><code>mvn package -DskipTests</code></td><td>Compila el <code>.jar</code> sin re-ejecutar tests</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🔑 Paso 9 — Configura los Secrets en GitHub</h2>
+<p>El pipeline necesita credenciales de DockerHub guardadas como Secrets en GitHub.</p>
+<ol>
+<li>Ve a tu repositorio en GitHub</li>
+<li>Click en <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></li>
+<li>Click en <strong>"New repository secret"</strong> y agrega:</li>
+</ol>
+<table>
+<thead><tr><th>Nombre del Secret</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td><code>DOCKERHUB_USERNAME</code></td><td>Tu nombre de usuario en DockerHub</td></tr>
+<tr><td><code>DOCKERHUB_TOKEN</code></td><td>Token de acceso de DockerHub (no tu contraseña)</td></tr>
+</tbody>
+</table>
+<p><strong>¿Cómo crear un token de DockerHub?</strong></p>
+<pre class="text"><code>1. Ingresa a https://hub.docker.com
+2. Click en tu usuario → Account Settings → Security
+3. Click en "New Access Token"
+4. Ponle un nombre (ej: "github-actions") y copia el token generado
+5. Pégalo en GitHub como el secret DOCKERHUB_TOKEN</code></pre>
+<blockquote><p>⚠️ Un token de acceso es más seguro que tu contraseña: puedes revocarlo sin cambiar tu contraseña. Nunca escribas credenciales directamente en el YAML del pipeline.</p></blockquote>
+
+<hr />
+
+<h2>🚀 Paso 10 — Ejecuta el pipeline en GitHub Actions</h2>
+<ol>
+<li>Asegúrate de tener todos los cambios commiteados:</li>
+</ol>
+<pre class="bash"><code>git add .
+git commit -m "feat: agrego pruebas unitarias y pipeline con JaCoCo"
+git push origin main</code></pre>
+<ol start="2">
+<li>Ve a tu repositorio en GitHub → pestaña <strong>Actions</strong></li>
+<li>Verás el workflow <strong>"CI — Build, Test y Push a DockerHub"</strong> ejecutándose</li>
+<li>Click en el nombre del workflow para ver el detalle de cada paso</li>
+</ol>
+<h3>¿Qué verás en la ejecución?</h3>
+<pre class="text"><code>✅ Checkout del repositorio          ~5s
+✅ Configurar Java 17                ~15s
+✅ Ejecutar tests                    ~60s  (12 tests, 0 fallos)
+✅ Generar reporte de cobertura      ~5s
+✅ Subir reporte de cobertura        ~5s   → aparece en "Artifacts"
+✅ Build del proyecto                ~30s
+✅ Login en DockerHub                ~5s
+✅ Build de la imagen Docker         ~120s
+✅ Push de la imagen a DockerHub     ~30s</code></pre>
+
+<hr />
+
+<h2>📥 Paso 11 — Descarga y analiza el artefacto de cobertura</h2>
+<p>Una vez que el pipeline termine exitosamente:</p>
+<ol>
+<li>Ve a la pestaña <strong>Actions</strong> en GitHub</li>
+<li>Click en la ejecución del workflow</li>
+<li>Baja hasta la sección <strong>Artifacts</strong></li>
+<li>Descarga <strong><code>jacoco-report</code></strong></li>
+<li>Descomprime el <code>.zip</code> y abre <code>index.html</code> en tu navegador</li>
+</ol>
+<p>Verás exactamente el mismo reporte que generaste localmente, pero guardado permanentemente en GitHub como evidencia de la ejecución del pipeline.</p>
+
+<hr />
+
+<h2>🛑 Solución de problemas frecuentes</h2>
+
+<h3>Los tests fallan con error de conexión a la base de datos</h3>
+<p>Las pruebas unitarias no necesitan MySQL. Puedes ejecutar solo los tests unitarios:</p>
+<pre class="bash"><code>mvn test -Dtest=StudentModelTest,StudentServiceImplTest</code></pre>
+
+<h3><code>mvn test</code> falla con "compilation error"</h3>
+<p>Verifica que estás usando Java 17:</p>
+<pre class="bash"><code>java -version
+# Debe mostrar: openjdk version "17.x.x"
+
+# Si tienes múltiples versiones de Java (macOS):
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+mvn test</code></pre>
+
+<h3>El reporte JaCoCo no se genera</h3>
+<p>Si <code>target/site/jacoco/</code> no existe después de <code>mvn test</code>, fuerza la generación:</p>
+<pre class="bash"><code>mvn jacoco:report</code></pre>
+
+<h3>El pipeline falla en "Push de la imagen a DockerHub"</h3>
+<p>Verifica que los secrets <code>DOCKERHUB_USERNAME</code> y <code>DOCKERHUB_TOKEN</code> estén configurados en GitHub (Settings → Secrets → Actions).</p>
+
+<h3>El pipeline falla en "Ejecutar tests" por MySQL</h3>
+<p>El pipeline usa un servicio MySQL de GitHub Actions. Si los tests unitarios no necesitan base de datos, puedes omitir el bloque <code>services:</code> del YAML o asegúrate de que la URL en <code>env:</code> apunte a <code>localhost:3306</code>.</p>
+
+<hr />
+
+<h2>📊 Resumen de comandos Maven</h2>
+<table>
+<thead><tr><th>Acción</th><th>Comando</th></tr></thead>
+<tbody>
+<tr><td>Ejecutar todos los tests + cobertura</td><td><code>mvn test</code></td></tr>
+<tr><td>Ejecutar solo una clase de test</td><td><code>mvn test -Dtest=NombreClase</code></td></tr>
+<tr><td>Generar reporte JaCoCo manualmente</td><td><code>mvn jacoco:report</code></td></tr>
+<tr><td>Compilar sin tests</td><td><code>mvn package -DskipTests</code></td></tr>
+<tr><td>Limpiar archivos compilados</td><td><code>mvn clean</code></td></tr>
+<tr><td>Todo desde cero</td><td><code>mvn clean test</code></td></tr>
+<tr><td>Ver reporte local (macOS)</td><td><code>open target/site/jacoco/index.html</code></td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>✅ Lista de verificación — entregables</h2>
+<p>Al terminar la actividad debes tener evidencia de cada punto:</p>
+<ul class="checklist">
+<li>Captura de <code>mvn test</code> con <strong>0 fallos</strong> y el número de tests ejecutados</li>
+<li>Captura del reporte <code>index.html</code> de JaCoCo abierto en el navegador (porcentaje de cobertura visible)</li>
+<li>Captura del reporte de JaCoCo mostrando líneas cubiertas (verde) y no cubiertas (rojo) en al menos una clase</li>
+<li>Captura del pipeline en GitHub Actions con <strong>todos los pasos en verde</strong> ✅</li>
+<li>Captura de la sección <strong>Artifacts</strong> en GitHub Actions mostrando el artefacto <code>jacoco-report</code> descargable</li>
+<li>Captura del reporte de cobertura descargado desde el artefacto de GitHub Actions</li>
+</ul>
+
+<div class="footer">
+  Guía del Estudiante — Asignatura DevOps · Actividad 2.3 · DUOC UC &nbsp;|&nbsp; Made with IBM Bob
+</div>
+
+</body>
+</html>

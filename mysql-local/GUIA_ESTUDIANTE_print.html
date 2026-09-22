@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Estudiante — API REST con Docker y MySQL</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: #1f2328;
+    background: #fff;
+    padding: 14mm 16mm 14mm 16mm;
+  }
+
+  /* ── Cabecera ── */
+  .cover {
+    background: #1a3a5c;
+    color: white;
+    padding: 22px 26px 20px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+  }
+  .cover h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    margin: 0 0 4px 0;
+    padding: 0;
+  }
+  .cover .subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+  }
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.9);
+    margin-top: 8px;
+  }
+
+  /* ── Tipografía ── */
+  h1 {
+    font-size: 17px;
+    color: #1a3a5c;
+    border-bottom: 2px solid #3b82d4;
+    padding-bottom: 5px;
+    margin: 26px 0 10px;
+    page-break-after: avoid;
+  }
+  h2 {
+    font-size: 14px;
+    color: #1a3a5c;
+    border-bottom: 1px solid #d0d7de;
+    padding-bottom: 4px;
+    margin: 20px 0 8px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12px;
+    color: #3b82d4;
+    font-weight: 600;
+    margin: 14px 0 5px;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11px;
+    color: #57606a;
+    font-weight: 600;
+    font-style: italic;
+    margin: 10px 0 4px;
+  }
+  p { margin-bottom: 7px; }
+
+  /* ── Blockquote ── */
+  blockquote {
+    border-left: 4px solid #3b82d4;
+    background: #eef4ff;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-radius: 0 4px 4px 0;
+    color: #2d3a4a;
+    font-size: 11px;
+  }
+  blockquote p { margin: 0; }
+
+  /* ── Código inline ── */
+  code {
+    font-family: "SFMono-Regular", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 10px;
+    background: #f0f3f7;
+    border: 1px solid #d0d7de;
+    border-radius: 3px;
+    padding: 1px 4px;
+    color: #c0392b;
+  }
+
+  /* ── Bloques de código ── */
+  pre {
+    background: #1e2533;
+    color: #d0d8f0;
+    border-radius: 5px;
+    padding: 10px 13px;
+    margin: 8px 0;
+    overflow-x: auto;
+    font-size: 9.5px;
+    line-height: 1.55;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  pre.bash code, pre.sh code  { color: #a9dc76; }
+  pre.sql code                { color: #78dce8; }
+  pre.json code               { color: #ffd866; }
+  pre.text code               { color: #cfcfcf; }
+
+  /* ── Tablas ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 10.5px;
+    page-break-inside: avoid;
+  }
+  th {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 6px 9px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 10.5px;
+  }
+  td {
+    padding: 5px 9px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f7f8fa; }
+
+  /* ── Listas ── */
+  ul, ol {
+    padding-left: 18px;
+    margin-bottom: 7px;
+  }
+  li { margin-bottom: 3px; }
+
+  /* ── Lista de verificación (checkboxes) ── */
+  ul.task-list {
+    list-style: none;
+    padding-left: 4px;
+  }
+  ul.task-list li {
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  ul.task-list li label {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    cursor: default;
+  }
+  ul.task-list input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+    accent-color: #3b82d4;
+  }
+
+  /* ── Separadores ── */
+  hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+  }
+
+  /* ── Pie de página ── */
+  .footer {
+    margin-top: 36px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 9.5px;
+    color: #8b949e;
+  }
+
+  /* ── Saltos de página ── */
+  @media print {
+    body { padding: 0; }
+    h1, h2 { page-break-before: auto; }
+    pre, table, blockquote { page-break-inside: avoid; }
+    .cover { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cabecera de portada -->
+<div class="cover">
+  <h1>🐳 Guía del Estudiante — API REST con Docker y MySQL</h1>
+  <div class="subtitle">Asignatura DevOps | Actividad práctica</div>
+  <div class="badge">DUOC UC · DevOps 003D</div>
+</div>
+
+<blockquote>
+<p><strong>¿Qué vas a lograr?</strong> Levantar una API REST de Estudiantes con base de datos MySQL en tu propio computador, usando contenedores. No necesitas instalar Java, Maven ni MySQL — solo la herramienta de contenedores de tu preferencia.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="paso-0-elige-tu-herramienta">🖥️ Paso 0 — Elige tu herramienta</h2>
+<p>Antes de comenzar, identifica cuál tienes instalada:</p>
+<table>
+<thead>
+<tr><th>Herramienta</th><th>¿Cómo verificar?</th><th>¿Gratis?</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Docker Desktop</strong></td><td><code>docker --version</code></td><td>✅ Uso personal</td></tr>
+<tr><td><strong>Podman</strong></td><td><code>podman --version</code></td><td>✅ 100% open source</td></tr>
+</tbody>
+</table>
+<p>Abre una terminal y prueba ambos comandos. Usa el que responda. A lo largo de esta guía verás bloques alternativos para cada uno — elige solo el tuyo.</p>
+
+<hr />
+
+<h2 id="paso-1-obtén-el-proyecto">📦 Paso 1 — Obtén el proyecto</h2>
+<p>Descomprime el archivo <code>mysql-local.zip</code> que te entregó el profesor.</p>
+<pre class="text"><code>mysql-local/
+├── Dockerfile              ← receta para construir el contenedor de la app
+├── docker-compose.yml      ← orquesta la app + MySQL juntos
+├── pom.xml                 ← dependencias del proyecto Java
+└── src/                    ← código fuente de la aplicación</code></pre>
+<p>Abre una terminal y entra a la carpeta:</p>
+<pre class="bash"><code>cd mysql-local</code></pre>
+<blockquote><p>⚠️ <strong>Todos los comandos del resto de esta guía se ejecutan dentro de <code>mysql-local/</code>.</strong></p></blockquote>
+
+<hr />
+
+<h2 id="paso-2-prepara-tu-herramienta">⚙️ Paso 2 — Prepara tu herramienta</h2>
+
+<h3>Si usas Podman</h3>
+<p><strong>Paso 2a — Inicia la máquina virtual de Podman</strong></p>
+<pre class="bash"><code>podman machine start</code></pre>
+<p>Espera este mensaje antes de continuar:</p>
+<pre class="text"><code>Machine "podman-machine-default" started successfully</code></pre>
+<p><strong>Paso 2b — Instala podman-compose</strong> (si no lo tienes)</p>
+<pre class="bash"><code>pip3 install podman-compose</code></pre>
+<p>Verifica:</p>
+<pre class="bash"><code>podman-compose --version</code></pre>
+
+<h3>Si usas Docker Desktop</h3>
+<p>Asegúrate de que Docker Desktop esté <strong>abierto y corriendo</strong> (ícono en la barra de menú).</p>
+<p>Verifica en la terminal:</p>
+<pre class="bash"><code>docker --version
+docker compose version</code></pre>
+<p>Ambos comandos deben responder sin error.</p>
+
+<hr />
+
+<h2 id="paso-3-lee-el-dockerfile">🔍 Paso 3 — Lee el Dockerfile antes de construir</h2>
+<p>Abre el archivo <code>Dockerfile</code> con cualquier editor de texto y observa su estructura.</p>
+<pre class="text"><code># ETAPA 1: Build (el taller)
+FROM eclipse-temurin:17-jdk AS build   # imagen con Java 17 completo + compilador
+
+RUN apt-get install -y maven           # instala Maven (herramienta de compilacion)
+
+COPY pom.xml .                         # copia la lista de dependencias
+RUN mvn dependency:go-offline          # descarga todas las librerias
+
+COPY src ./src                         # copia el codigo fuente
+RUN mvn clean package -DskipTests      # compila, genera el archivo .jar
+
+# ETAPA 2: Runtime (el producto final)
+FROM eclipse-temurin:17-jre            # imagen liviana, solo para ejecutar
+
+COPY --from=build /app/target/bdget-0.0.1-SNAPSHOT.jar app.jar  # copia solo el .jar
+
+EXPOSE 8080                            # puerto de la aplicacion
+ENTRYPOINT ["java", "-jar", "app.jar"] # comando de arranque</code></pre>
+<p><strong>¿Por qué dos etapas?</strong></p>
+<p>La Etapa 1 tiene Maven, el JDK completo y el código fuente (~700 MB). La Etapa 2 solo tiene el <code>.jar</code> final + el JRE (~280 MB). La imagen que se despliega es <strong>solo la Etapa 2</strong> — más liviana y más segura.</p>
+
+<hr />
+
+<h2 id="paso-4-lee-compose">🔍 Paso 4 — Lee el docker-compose.yml antes de ejecutar</h2>
+<p>Abre el archivo <code>docker-compose.yml</code> y ubica estos puntos clave:</p>
+<pre class="text"><code>services:
+
+  mysql:                              # Contenedor 1: base de datos
+    image: mysql:8.0                  # imagen oficial, se descarga de internet
+    environment:
+      MYSQL_DATABASE: bdget_db        # crea la BD automaticamente al arrancar
+      MYSQL_USER: bdget_user
+      MYSQL_PASSWORD: bdget_pass
+    healthcheck:                      # verifica que MySQL este realmente listo
+      test: ["CMD-SHELL", "mysqladmin ping ..."]
+    volumes:
+      - mysql_data:/var/lib/mysql     # los datos se guardan aunque el contenedor se detenga
+
+  app:                                # Contenedor 2: la aplicacion Spring Boot
+    build: .                          # construye la imagen usando el Dockerfile
+    ports:
+      - "8080:8080"                   # tu PC:8080 -> contenedor:8080
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysql:3306/bdget_db   # "mysql" = nombre del servicio
+    depends_on:
+      mysql:
+        condition: service_healthy    # espera que MySQL este listo primero</code></pre>
+<blockquote><p>💡 <strong>Punto importante:</strong> La URL de la base de datos dice <code>mysql:3306</code> (no <code>localhost:3306</code>). Dentro de la red de compose, los contenedores se llaman por el <strong>nombre del servicio</strong>. <code>localhost</code> dentro del contenedor <code>app</code> es el propio contenedor, no MySQL.</p></blockquote>
+
+<hr />
+
+<h2 id="paso-5-levanta">🚀 Paso 5 — Levanta el sistema completo</h2>
+<p>Este es el comando principal. Construye las imágenes y arranca ambos contenedores:</p>
+
+<h3>Con Podman</h3>
+<pre class="bash"><code>podman-compose up --build</code></pre>
+
+<h3>Con Docker</h3>
+<pre class="bash"><code>docker compose up --build</code></pre>
+
+<h3>¿Qué ocurre al ejecutarlo?</h3>
+<p>Observa la salida en la terminal — verás 4 fases:</p>
+<p><strong>Fase 1 — Descarga de imágenes base</strong></p>
+<pre class="text"><code>Pulling mysql:8.0 ...
+Pulling eclipse-temurin:17-jdk ...</code></pre>
+<p><strong>Fase 2 — Build de la aplicación (Etapa 1 del Dockerfile)</strong></p>
+<pre class="text"><code>Step: RUN apt-get install -y maven
+Step: RUN mvn dependency:go-offline    ← puede tardar 2-3 min la primera vez
+Step: RUN mvn clean package</code></pre>
+<p><strong>Fase 3 — MySQL arranca y pasa el healthcheck</strong></p>
+<pre class="text"><code>[mysql] MySQL init process done. Ready for start up.
+[mysql] ready for connections. Port: 3306</code></pre>
+<p><strong>Fase 4 — La app arranca y se conecta a MySQL</strong></p>
+<pre class="text"><code>[app] Started BdgetApplication in X.XXX seconds</code></pre>
+<blockquote><p>⏱️ <strong>La primera vez demora ~3-5 minutos</strong> porque descarga dependencias de internet. Las siguientes veces tarda ~30 segundos gracias al caché.</p></blockquote>
+
+<hr />
+
+<h2 id="paso-6-verifica">✅ Paso 6 — Verifica que todo está corriendo</h2>
+<p>Abre <strong>otra terminal</strong> (deja la primera con los logs) y ejecuta:</p>
+
+<h3>Con Podman</h3>
+<pre class="bash"><code>podman ps</code></pre>
+
+<h3>Con Docker</h3>
+<pre class="bash"><code>docker ps</code></pre>
+
+<p>Debes ver <strong>dos contenedores</strong> en estado <code>Up</code>:</p>
+<pre class="text"><code>NAMES           IMAGE               STATUS    PORTS
+bdget-app       mysql-local_app     Up        0.0.0.0:8080->8080/tcp
+bdget-mysql     mysql:8.0           Up        0.0.0.0:3306->3306/tcp</code></pre>
+
+<hr />
+
+<h2 id="paso-7-swagger">🌐 Paso 7 — Abre la interfaz Swagger</h2>
+<p>La aplicación incluye <strong>Swagger UI</strong>: una interfaz web para probar todos los endpoints sin necesidad de comandos ni herramientas adicionales.</p>
+<p>Abre tu navegador en:</p>
+<pre class="text"><code>http://localhost:8080/swagger-ui.html</code></pre>
+<p>Verás una página con todos los endpoints disponibles:</p>
+<pre class="text"><code>GET    /students          → Lista todos los estudiantes
+POST   /students          → Crea un nuevo estudiante
+GET    /students/{id}     → Busca un estudiante por ID
+PUT    /students/{id}     → Actualiza un estudiante
+DELETE /students/{id}     → Elimina un estudiante</code></pre>
+
+<hr />
+
+<h2 id="paso-8-prueba">🧪 Paso 8 — Prueba la API</h2>
+<p>Puedes probar la API de <strong>dos maneras</strong> — elige la que prefieras:</p>
+
+<h3>Opción A — Desde Swagger UI (navegador)</h3>
+<ol>
+<li>Abre <code>http://localhost:8080/swagger-ui.html</code></li>
+<li>Click en <strong><code>POST /students</code></strong> → click en <strong>"Try it out"</strong></li>
+<li>En el campo <code>Request body</code> escribe:
+<pre class="json"><code>{
+  "name": "Ana"
+}</code></pre></li>
+<li>Click en <strong>"Execute"</strong></li>
+<li>Observa la respuesta <code>201 Created</code>:
+<pre class="json"><code>{
+  "id": 1,
+  "name": "Ana"
+}</code></pre></li>
+</ol>
+
+<h3>Opción B — Desde la terminal con curl</h3>
+<p><strong>Listar todos (lista vacía al inicio)</strong></p>
+<pre class="bash"><code>curl http://localhost:8080/students</code></pre>
+<p>Respuesta: <code>[]</code></p>
+
+<p><strong>Crear un estudiante</strong></p>
+<pre class="bash"><code>curl -X POST http://localhost:8080/students \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Ana"}'</code></pre>
+<p>Respuesta esperada: <code>{"id": 1, "name": "Ana"}</code></p>
+
+<p><strong>Crear otro estudiante</strong></p>
+<pre class="bash"><code>curl -X POST http://localhost:8080/students \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Luis"}'</code></pre>
+
+<p><strong>Listar todos</strong></p>
+<pre class="bash"><code>curl http://localhost:8080/students</code></pre>
+<p>Respuesta esperada: <code>[{"id": 1, "name": "Ana"}, {"id": 2, "name": "Luis"}]</code></p>
+
+<p><strong>Buscar por ID</strong></p>
+<pre class="bash"><code>curl http://localhost:8080/students/1</code></pre>
+
+<p><strong>Actualizar</strong></p>
+<pre class="bash"><code>curl -X PUT http://localhost:8080/students/1 \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Maria"}'</code></pre>
+
+<p><strong>Eliminar</strong></p>
+<pre class="bash"><code>curl -X DELETE http://localhost:8080/students/2</code></pre>
+
+<h3>Prueba la validación (debe fallar con error 400)</h3>
+<p>La aplicación valida que el nombre: no esté vacío, tenga entre 2 y 50 caracteres, y solo contenga letras (sin números ni símbolos).</p>
+<pre class="bash"><code># Nombre con números → error
+curl -X POST http://localhost:8080/students \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Ana123"}'</code></pre>
+<p>Respuesta esperada (<code>400 Bad Request</code>):</p>
+<pre class="json"><code>{
+  "status": 400,
+  "errors": {
+    "name": "El nombre solo puede contener letras"
+  }
+}</code></pre>
+
+<pre class="bash"><code># Nombre vacío → error
+curl -X POST http://localhost:8080/students \
+     -H "Content-Type: application/json" \
+     -d '{"name": ""}'</code></pre>
+<p>Respuesta esperada:</p>
+<pre class="json"><code>{
+  "status": 400,
+  "errors": {
+    "name": "No puede ingresar un nombre vacío"
+  }
+}</code></pre>
+
+<hr />
+
+<h2 id="paso-9-mysql">🔎 Paso 9 — Verifica los datos en MySQL</h2>
+<p>Entra al contenedor de MySQL y revisa los datos directamente en la base de datos:</p>
+
+<h3>Con Podman</h3>
+<pre class="bash"><code>podman exec -it bdget-mysql mysql -u bdget_user -pbdget_pass bdget_db</code></pre>
+
+<h3>Con Docker</h3>
+<pre class="bash"><code>docker exec -it bdget-mysql mysql -u bdget_user -pbdget_pass bdget_db</code></pre>
+
+<p>Una vez dentro del cliente MySQL, ejecuta:</p>
+<pre class="sql"><code>-- Ver las tablas que creó Spring Boot automáticamente
+SHOW TABLES;</code></pre>
+<pre class="text"><code>+--------------------+
+| Tables_in_bdget_db |
++--------------------+
+| student            |
++--------------------+</code></pre>
+
+<pre class="sql"><code>-- Ver la estructura de la tabla
+DESCRIBE student;</code></pre>
+<pre class="text"><code>+-------+--------------+------+-----+
+| Field | Type         | Null | Key |
++-------+--------------+------+-----+
+| id    | bigint       | NO   | PRI |
+| name  | varchar(50)  | NO   |     |
++-------+--------------+------+-----+</code></pre>
+
+<pre class="sql"><code>-- Ver los estudiantes creados
+SELECT * FROM student;</code></pre>
+<pre class="text"><code>+----+-------+
+| id | name  |
++----+-------+
+|  1 | Maria |
++----+-------+</code></pre>
+
+<pre class="sql"><code>-- Salir de MySQL
+EXIT;</code></pre>
+
+<blockquote><p>💡 Observa que la tabla <code>student</code> fue creada <strong>automáticamente</strong> por Spring Boot al arrancar, gracias a <code>spring.jpa.hibernate.ddl-auto=update</code> en <code>application.properties</code>. No escribiste ningún SQL para crear la tabla.</p></blockquote>
+
+<hr />
+
+<h2 id="paso-10-detener">🛑 Paso 10 — Detener y reiniciar</h2>
+
+<h3>Detener sin borrar nada</h3>
+<p>Presiona <code>Ctrl + C</code> en la terminal con los logs, luego:</p>
+<h4>Con Podman</h4>
+<pre class="bash"><code>podman-compose stop</code></pre>
+<h4>Con Docker</h4>
+<pre class="bash"><code>docker compose stop</code></pre>
+<p>Los contenedores quedan detenidos. Los datos de MySQL se conservan en el volumen.</p>
+
+<h3>Volver a levantar (sin reconstruir)</h3>
+<h4>Con Podman</h4>
+<pre class="bash"><code>podman-compose start</code></pre>
+<h4>Con Docker</h4>
+<pre class="bash"><code>docker compose start</code></pre>
+<blockquote><p>✅ Los estudiantes que creaste antes seguirán ahí — el volumen los preservó.</p></blockquote>
+
+<h3>Reiniciar desde cero (borra todos los datos)</h3>
+<h4>Con Podman</h4>
+<pre class="bash"><code>podman-compose down -v</code></pre>
+<h4>Con Docker</h4>
+<pre class="bash"><code>docker compose down -v</code></pre>
+<p>La bandera <code>-v</code> elimina el volumen de MySQL. La próxima vez que levantes con <code>up --build</code> la base de datos estará vacía.</p>
+
+<hr />
+
+<h2 id="resumen">📊 Resumen de comandos</h2>
+<table>
+<thead>
+<tr><th>Acción</th><th>Podman</th><th>Docker</th></tr>
+</thead>
+<tbody>
+<tr><td>Levantar todo (primera vez)</td><td><code>podman-compose up --build</code></td><td><code>docker compose up --build</code></td></tr>
+<tr><td>Levantar (sin reconstruir)</td><td><code>podman-compose up</code></td><td><code>docker compose up</code></td></tr>
+<tr><td>Ver contenedores activos</td><td><code>podman ps</code></td><td><code>docker ps</code></td></tr>
+<tr><td>Ver logs en vivo</td><td><code>podman-compose logs -f</code></td><td><code>docker compose logs -f</code></td></tr>
+<tr><td>Detener (conserva datos)</td><td><code>podman-compose stop</code></td><td><code>docker compose stop</code></td></tr>
+<tr><td>Reanudar</td><td><code>podman-compose start</code></td><td><code>docker compose start</code></td></tr>
+<tr><td>Eliminar contenedores</td><td><code>podman-compose down</code></td><td><code>docker compose down</code></td></tr>
+<tr><td>Eliminar contenedores + datos</td><td><code>podman-compose down -v</code></td><td><code>docker compose down -v</code></td></tr>
+<tr><td>Entrar a MySQL</td><td><code>podman exec -it bdget-mysql mysql -u bdget_user -pbdget_pass bdget_db</code></td><td><code>docker exec -it bdget-mysql mysql -u bdget_user -pbdget_pass bdget_db</code></td></tr>
+<tr><td>Entrar a la app</td><td><code>podman exec -it bdget-app /bin/sh</code></td><td><code>docker exec -it bdget-app /bin/sh</code></td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="problemas">🚨 Solución de problemas frecuentes</h2>
+
+<h3>"address already in use" en el puerto 8080 o 3306</h3>
+<p>Otro proceso está usando ese puerto. Identifícalo y detenlo:</p>
+<pre class="bash"><code># Busca qué proceso usa el puerto 8080
+lsof -i :8080
+
+# Busca qué proceso usa el puerto 3306
+lsof -i :3306</code></pre>
+
+<h3>La app arranca pero no se conecta a MySQL</h3>
+<p>El healthcheck de MySQL no pasó a tiempo. Espera 30 segundos y vuelve a intentar:</p>
+<pre class="bash"><code>podman-compose down
+podman-compose up</code></pre>
+
+<h3>"podman machine" no está corriendo (solo Podman)</h3>
+<pre class="bash"><code>podman machine start</code></pre>
+
+<h3>El build falla con error de Maven</h3>
+<p>Verifica que tienes conexión a internet — Maven necesita descargar dependencias la primera vez. Luego reintenta:</p>
+<pre class="bash"><code>podman-compose up --build
+# o
+docker compose up --build</code></pre>
+
+<hr />
+
+<h2 id="checklist">✅ Lista de verificación — entregables</h2>
+<p>Al terminar la actividad debes tener evidencia de cada punto:</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /> Captura de <code>podman ps</code> / <code>docker ps</code> con los dos contenedores en estado <code>Up</code></label></li>
+<li><label><input type="checkbox" /> Captura del navegador en <code>http://localhost:8080/swagger-ui.html</code></label></li>
+<li><label><input type="checkbox" /> Captura de <code>GET /students</code> con al menos 2 estudiantes creados</label></li>
+<li><label><input type="checkbox" /> Captura del error <code>400</code> al intentar crear un estudiante con nombre inválido</label></li>
+<li><label><input type="checkbox" /> Captura del resultado de <code>SELECT * FROM student</code> dentro del contenedor MySQL</label></li>
+</ul>
+
+<div class="footer">
+  Guía del Estudiante — Asignatura DevOps · DUOC UC &nbsp;|&nbsp; Made with IBM Bob
+</div>
+
+</body>
+</html>

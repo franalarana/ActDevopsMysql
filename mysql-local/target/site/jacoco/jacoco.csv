@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+bdget,com.example.bdget.model,Student,0,17,0,0,0,7,0,5,0,5
+bdget,com.example.bdget.service,StudentServiceImpl,0,39,0,2,0,10,0,7,0,6
+bdget,com.example.bdget,BdgetApplication,5,3,0,0,2,1,1,1,1,1
+bdget,com.example.bdget.controller,StudentController,0,52,0,2,0,13,0,7,0,6
+bdget,com.example.bdget.exception,GlobalExceptionHandler,106,3,0,0,19,1,4,1,4,1

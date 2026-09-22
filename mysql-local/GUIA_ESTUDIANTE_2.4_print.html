@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Estudiante — Actividad 2.4</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: #1f2328;
+    background: #fff;
+    padding: 14mm 16mm 14mm 16mm;
+  }
+  .cover {
+    background: #1a3a5c;
+    color: white;
+    padding: 22px 26px 20px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+  }
+  .cover h1 { font-size: 19px; font-weight: 700; color: #fff; border: none; margin: 0 0 4px 0; padding: 0; }
+  .cover .subtitle { font-size: 11px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+  .cover .badges { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px; padding: 2px 9px;
+    font-size: 10px; color: rgba(255,255,255,0.9);
+  }
+  .cover .badge.green  { background: rgba(34,197,94,0.25);  border-color: rgba(34,197,94,0.5); }
+  .cover .badge.orange { background: rgba(249,115,22,0.25); border-color: rgba(249,115,22,0.5); }
+  .cover .badge.purple { background: rgba(139,92,246,0.25); border-color: rgba(139,92,246,0.5); }
+
+  h1 { font-size: 17px; color: #1a3a5c; border-bottom: 2px solid #3b82d4; padding-bottom: 5px; margin: 26px 0 10px; page-break-after: avoid; }
+  h2 { font-size: 14px; color: #1a3a5c; border-bottom: 1px solid #d0d7de; padding-bottom: 4px; margin: 20px 0 8px; page-break-after: avoid; }
+  h3 { font-size: 12px; color: #3b82d4; font-weight: 600; margin: 14px 0 5px; page-break-after: avoid; }
+  h4 { font-size: 11px; color: #57606a; font-weight: 600; font-style: italic; margin: 10px 0 4px; }
+  p  { margin-bottom: 7px; }
+
+  blockquote {
+    border-left: 4px solid #3b82d4;
+    background: #eef4ff;
+    padding: 8px 12px; margin: 10px 0;
+    border-radius: 0 4px 4px 0;
+    color: #2d3a4a; font-size: 11px;
+  }
+  blockquote.warn { border-left-color: #f59e0b; background: #fffbeb; }
+  blockquote.ok   { border-left-color: #22c55e; background: #f0fdf4; }
+  blockquote p { margin: 0; }
+
+  code {
+    font-family: "SFMono-Regular", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 10px;
+    background: #f0f3f7; border: 1px solid #d0d7de;
+    border-radius: 3px; padding: 1px 4px; color: #c0392b;
+  }
+  pre {
+    background: #1e2533; color: #d0d8f0;
+    border-radius: 5px; padding: 10px 13px; margin: 8px 0;
+    font-size: 9.5px; line-height: 1.55;
+    page-break-inside: avoid;
+    overflow-x: hidden; white-space: pre-wrap; word-break: break-all;
+  }
+  pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+  pre.bash code, pre.sh code   { color: #a9dc76; }
+  pre.yaml code, pre.yml code  { color: #ab9df2; }
+  pre.xml code                 { color: #78dce8; }
+  pre.text code                { color: #cfcfcf; }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10.5px; page-break-inside: avoid; }
+  th { background: #1a3a5c; color: #fff; padding: 6px 9px; text-align: left; font-weight: 600; }
+  td { padding: 5px 9px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  tr:nth-child(even) td { background: #f7f8fa; }
+
+  ul, ol { padding-left: 18px; margin-bottom: 7px; }
+  li { margin-bottom: 3px; }
+
+  ul.checklist { list-style: none; padding-left: 4px; }
+  ul.checklist li {
+    padding: 5px 10px; margin-bottom: 5px;
+    background: #f7f8fa; border: 1px solid #e5e7eb;
+    border-radius: 4px; display: flex; align-items: flex-start; gap: 8px;
+  }
+  ul.checklist li::before { content: "☐"; color: #3b82d4; font-size: 14px; flex-shrink: 0; line-height: 1.2; }
+
+  hr { border: none; border-top: 1px solid #e5e7eb; margin: 16px 0; }
+
+  .tool-card {
+    border: 1px solid #e5e7eb; border-radius: 5px;
+    padding: 10px 14px; margin: 8px 0;
+    background: #f7f8fa; page-break-inside: avoid;
+  }
+  .tool-card .tool-title { font-weight: 700; color: #1a3a5c; font-size: 12px; margin-bottom: 4px; }
+  .tool-card .tool-badge {
+    display: inline-block; border-radius: 3px;
+    padding: 1px 7px; font-size: 9.5px; font-weight: 600;
+    margin-left: 6px;
+  }
+  .badge-sonar  { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+  .badge-snyk   { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; }
+
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 9.5px; color: #8b949e; }
+
+  @media print {
+    body { padding: 0; }
+    h1, h2 { page-break-before: auto; }
+    pre, table, blockquote, .tool-card { page-break-inside: avoid; }
+    .cover { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cabecera -->
+<div class="cover">
+  <h1>🔐 Guía del Estudiante — Seguridad en el Pipeline CI con SonarCloud y Snyk</h1>
+  <div class="subtitle">Asignatura DevOps | Actividad 2.4 — Añadiendo seguridad a nuestro Pipeline</div>
+  <div class="badges">
+    <span class="badge">DUOC UC · DevOps 003D</span>
+    <span class="badge green">JaCoCo · JUnit 5</span>
+    <span class="badge orange">SonarCloud</span>
+    <span class="badge purple">Snyk</span>
+    <span class="badge">GitHub Actions</span>
+  </div>
+</div>
+
+<blockquote>
+<p><strong>¿Qué vas a lograr?</strong> Integrar dos herramientas profesionales de seguridad y calidad — <strong>SonarCloud</strong> y <strong>Snyk</strong> — en el pipeline de GitHub Actions del proyecto Spring Boot. Al finalizar, tu pipeline ejecutará tests, medirá cobertura con JaCoCo, analizará la calidad del código con SonarCloud y detectará vulnerabilidades en dependencias con Snyk, todo de forma automatizada.</p>
+</blockquote>
+
+<hr />
+
+<h2>🖥️ Paso 0 — Verifica tu entorno</h2>
+<p>Antes de comenzar confirma que tienes las herramientas de la actividad anterior:</p>
+<table>
+<thead><tr><th>Herramienta</th><th>¿Cómo verificar?</th><th>Necesario para</th></tr></thead>
+<tbody>
+<tr><td><strong>Java JDK 17</strong></td><td><code>java -version</code></td><td>Compilar y testear</td></tr>
+<tr><td><strong>Maven 3.8+</strong></td><td><code>mvn -version</code></td><td>Ejecutar tests y análisis</td></tr>
+<tr><td><strong>Git</strong></td><td><code>git --version</code></td><td>Publicar cambios al pipeline</td></tr>
+<tr><td><strong>Docker Desktop</strong> o <strong>Podman</strong></td><td><code>docker --version</code> / <code>podman --version</code></td><td>Build de imagen al final</td></tr>
+</tbody>
+</table>
+<p>Además necesitarás <strong>cuentas gratuitas</strong> en:</p>
+<table>
+<thead><tr><th>Plataforma</th><th>URL</th><th>¿Para qué?</th></tr></thead>
+<tbody>
+<tr><td><strong>SonarCloud</strong></td><td>https://sonarcloud.io</td><td>Análisis de calidad de código</td></tr>
+<tr><td><strong>Snyk</strong></td><td>https://snyk.io</td><td>Detección de vulnerabilidades</td></tr>
+<tr><td><strong>GitHub</strong></td><td>https://github.com</td><td>Repositorio y pipeline (Actions)</td></tr>
+</tbody>
+</table>
+<blockquote><p>💡 Las tres plataformas tienen planes gratuitos para repositorios públicos. Regístrate con tu cuenta de GitHub para simplificar la integración.</p></blockquote>
+
+<hr />
+
+<h2>📦 Paso 1 — Punto de partida: el proyecto de la actividad anterior</h2>
+<p>Esta actividad <strong>parte directamente del proyecto</strong> de la Actividad 2.3. Debes tener:</p>
+<pre class="text"><code>bdget/
+├── .github/
+│   └── workflows/
+│       └── main.yml          ← pipeline que vas a extender
+├── src/
+│   ├── main/java/...         ← código fuente
+│   └── test/java/...         ← pruebas unitarias ya escritas
+└── pom.xml                   ← JaCoCo ya configurado</code></pre>
+<p>Verifica que el pipeline de la actividad anterior sigue funcionando:</p>
+<pre class="bash"><code>git log --oneline -3        # confirma que tienes commits previos
+mvn test                    # confirma que los tests pasan localmente</code></pre>
+
+<hr />
+
+<h2>🔍 Paso 2 — ¿Qué son SonarCloud y Snyk?</h2>
+
+<div class="tool-card">
+  <div class="tool-title">SonarCloud <span class="tool-badge badge-sonar">Calidad de código</span></div>
+  <p>SonarCloud analiza tu código fuente en busca de:</p>
+  <table>
+  <thead><tr><th>Categoría</th><th>Ejemplos</th></tr></thead>
+  <tbody>
+  <tr><td><strong>Bugs</strong></td><td>Variables no inicializadas, condiciones siempre verdaderas</td></tr>
+  <tr><td><strong>Code Smells</strong></td><td>Métodos demasiado largos, código duplicado, complejidad excesiva</td></tr>
+  <tr><td><strong>Vulnerabilidades</strong></td><td>Inyección SQL, contraseñas hardcodeadas en código fuente</td></tr>
+  <tr><td><strong>Cobertura</strong></td><td>Lee el reporte de JaCoCo e integra el porcentaje en su dashboard</td></tr>
+  <tr><td><strong>Duplicación</strong></td><td>Bloques de código copiados entre clases</td></tr>
+  </tbody>
+  </table>
+  <p style="margin-top:6px">SonarCloud asigna una nota de <strong>A a E</strong> a cada categoría y puede <strong>bloquear</strong> un pull request si la calidad no cumple un umbral mínimo.</p>
+</div>
+
+<div class="tool-card">
+  <div class="tool-title">Snyk <span class="tool-badge badge-snyk">Vulnerabilidades</span></div>
+  <p>Snyk analiza las dependencias declaradas en tu <code>pom.xml</code> y las capas de la imagen Docker:</p>
+  <table>
+  <thead><tr><th>Lo que analiza</th><th>¿Dónde busca?</th></tr></thead>
+  <tbody>
+  <tr><td><strong>Dependencias Maven</strong></td><td><code>pom.xml</code> → CVEs conocidos en cada librería</td></tr>
+  <tr><td><strong>Imagen Docker</strong></td><td><code>Dockerfile</code> → vulnerabilidades en paquetes del SO base</td></tr>
+  <tr><td><strong>Severidad</strong></td><td>Critical, High, Medium, Low según la base CVSS</td></tr>
+  </tbody>
+  </table>
+</div>
+
+<hr />
+
+<h2>⚙️ Paso 3 — Configura SonarCloud</h2>
+
+<h3>3a — Crea el proyecto en SonarCloud</h3>
+<ol>
+<li>Ingresa a <strong>https://sonarcloud.io</strong> con tu cuenta de GitHub</li>
+<li>Click en <strong>"+"</strong> → <strong>"Analyze new project"</strong></li>
+<li>Selecciona tu repositorio <code>bdget</code> y click en <strong>"Set Up"</strong></li>
+<li>Elige <strong>"With GitHub Actions"</strong> como método de análisis</li>
+<li>SonarCloud te mostrará:
+  <ul>
+    <li>Tu <strong><code>SONAR_TOKEN</code></strong> — cópialo, lo usarás en el Paso 5</li>
+    <li>Tu <strong><code>SONAR_PROJECT_KEY</code></strong> — anótalo (formato: <code>tu-usuario_bdget</code>)</li>
+    <li>Tu <strong><code>SONAR_ORGANIZATION</code></strong> — anótalo (tu nombre de usuario en SonarCloud)</li>
+  </ul>
+</li>
+</ol>
+
+<h3>3b — Agrega las propiedades al pom.xml</h3>
+<p>Abre <code>pom.xml</code> y agrega dentro de <code>&lt;properties&gt;</code>:</p>
+<pre class="xml"><code>&lt;properties&gt;
+    &lt;java.version&gt;17&lt;/java.version&gt;
+    &lt;!-- SonarCloud --&gt;
+    &lt;sonar.projectKey&gt;TU-USUARIO_bdget&lt;/sonar.projectKey&gt;
+    &lt;sonar.organization&gt;TU-USUARIO-SONARCLOUD&lt;/sonar.organization&gt;
+    &lt;sonar.host.url&gt;https://sonarcloud.io&lt;/sonar.host.url&gt;
+&lt;/properties&gt;</code></pre>
+<blockquote class="warn"><p>⚠️ Reemplaza <code>TU-USUARIO_bdget</code> y <code>TU-USUARIO-SONARCLOUD</code> con los valores que SonarCloud te mostró en el paso anterior.</p></blockquote>
+
+<hr />
+
+<h2>⚙️ Paso 4 — Configura Snyk</h2>
+
+<h3>4a — Obtén tu token de Snyk</h3>
+<ol>
+<li>Ingresa a <strong>https://snyk.io</strong> con tu cuenta de GitHub</li>
+<li>Click en tu avatar (arriba derecha) → <strong>"Account settings"</strong></li>
+<li>En la sección <strong>"Auth Token"</strong> → click en <strong>"click to show"</strong></li>
+<li>Copia el token — lo usarás como Secret de GitHub</li>
+</ol>
+
+<h3>4b — (Opcional) Instala el CLI de Snyk localmente</h3>
+<p>Si quieres probar Snyk antes de ejecutarlo en el pipeline:</p>
+<pre class="bash"><code># Con npm (si tienes Node.js instalado)
+npm install -g snyk
+
+# Autentícate
+snyk auth
+
+# Escanea las dependencias del proyecto
+snyk test --all-projects</code></pre>
+
+<hr />
+
+<h2>🔑 Paso 5 — Configura todos los Secrets en GitHub</h2>
+<p>Ve a tu repositorio → <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong> → <strong>"New repository secret"</strong></p>
+<table>
+<thead><tr><th>Secret</th><th>Dónde obtenerlo</th></tr></thead>
+<tbody>
+<tr><td><code>SONAR_TOKEN</code></td><td>SonarCloud → tu proyecto → Administration → Analysis Method → GitHub Actions</td></tr>
+<tr><td><code>SONAR_PROJECT_KEY</code></td><td>SonarCloud → tu proyecto → Information (ej: <code>miusuario_bdget</code>)</td></tr>
+<tr><td><code>SONAR_ORGANIZATION</code></td><td>SonarCloud → tu nombre de organización (ej: <code>miusuario</code>)</td></tr>
+<tr><td><code>SNYK_TOKEN</code></td><td>Snyk → Account Settings → Auth Token</td></tr>
+<tr><td><code>DOCKERHUB_USERNAME</code></td><td>Ya configurado en actividad anterior</td></tr>
+<tr><td><code>DOCKERHUB_TOKEN</code></td><td>Ya configurado en actividad anterior</td></tr>
+</tbody>
+</table>
+<blockquote class="ok"><p>✅ Los secrets <code>DOCKERHUB_USERNAME</code> y <code>DOCKERHUB_TOKEN</code> ya existen de la Actividad 2.3 — no necesitas recrearlos.</p></blockquote>
+
+<hr />
+
+<h2>🔄 Paso 6 — Actualiza el pipeline: agrega SonarCloud y Snyk</h2>
+<p>Reemplaza el contenido de <code>.github/workflows/main.yml</code> con el siguiente pipeline completo:</p>
+<pre class="yaml"><code>name: CI — Tests, Calidad y Seguridad
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test-analyze:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_pass
+          MYSQL_DATABASE: bdget_db
+          MYSQL_USER: bdget_user
+          MYSQL_PASSWORD: bdget_pass
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u root -proot_pass"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      # 1. Descargar el código (fetch-depth:0 requerido por SonarCloud)
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. Configurar Java 17 con caché Maven
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Ejecutar tests + generar reporte JaCoCo
+      - name: Ejecutar tests
+        run: mvn test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/bdget_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+          SPRING_DATASOURCE_USERNAME: bdget_user
+          SPRING_DATASOURCE_PASSWORD: bdget_pass
+
+      # 4. Subir reporte JaCoCo como artefacto
+      - name: Subir reporte JaCoCo
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+      # 5. Analizar con SonarCloud
+      - name: Análisis SonarCloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
+      # 6. Escanear dependencias Maven con Snyk
+      - name: Escaneo de vulnerabilidades Snyk (dependencias)
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      # 7. Compilar el .jar
+      - name: Build del proyecto
+        run: mvn package -DskipTests
+
+      # 8. Login en DockerHub
+      - name: Login en DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 9. Construir imagen Docker
+      - name: Build de la imagen Docker
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bdget-app:latest .
+
+      # 10. Escanear imagen Docker con Snyk
+      - name: Escaneo de imagen Docker con Snyk
+        uses: snyk/actions/docker@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/bdget-app:latest
+          args: --severity-threshold=high
+
+      # 11. Publicar imagen en DockerHub
+      - name: Push de la imagen a DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/bdget-app:latest</code></pre>
+
+<hr />
+
+<h2>🔍 Paso 7 — Entiende cada nuevo paso del pipeline</h2>
+
+<h3>fetch-depth: 0 — ¿Por qué es obligatorio para SonarCloud?</h3>
+<pre class="yaml"><code>- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0    # descarga TODO el historial de commits</code></pre>
+<p>SonarCloud necesita el historial completo para calcular métricas de "código nuevo" vs "código existente" y aplicar reglas de Quality Gate solo al código modificado. Sin esto, el análisis falla o es incorrecto.</p>
+
+<h3>mvn sonar:sonar — ¿Qué envía a SonarCloud?</h3>
+<pre class="bash"><code>mvn sonar:sonar \
+  -Dsonar.projectKey=TU-USUARIO_bdget \
+  -Dsonar.organization=TU-USUARIO \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml</code></pre>
+<p>Este comando envía el código + el reporte de cobertura a SonarCloud. El parámetro <code>jacoco.xml</code> le dice a Sonar dónde encontrar la cobertura generada en el paso 3.</p>
+<blockquote><p>💡 <strong>¿Por qué <code>jacoco.xml</code> y no <code>jacoco.exec</code>?</strong> SonarCloud lee el reporte en formato XML. JaCoCo genera ambos: <code>.exec</code> (binario interno) y <code>jacoco.xml</code> dentro de <code>target/site/jacoco/</code>. El plugin sonar lee el XML.</p></blockquote>
+
+<h3>Snyk en dependencias Maven</h3>
+<pre class="yaml"><code>- uses: snyk/actions/maven@master
+  continue-on-error: true       # no bloquea el pipeline
+  with:
+    args: --severity-threshold=high   # solo High y Critical</code></pre>
+<p><code>snyk/actions/maven</code> lee el <code>pom.xml</code> y consulta la base de datos de CVEs de Snyk. <code>continue-on-error: true</code> permite que el pipeline continúe incluso si encuentra vulnerabilidades.</p>
+<blockquote class="warn"><p>⚠️ En entornos de producción se quitaría <code>continue-on-error: true</code> para <strong>bloquear</strong> el pipeline ante vulnerabilidades críticas.</p></blockquote>
+
+<h3>Snyk en imagen Docker</h3>
+<pre class="yaml"><code>- uses: snyk/actions/docker@master
+  with:
+    image: usuario/bdget-app:latest
+    args: --severity-threshold=high</code></pre>
+<p>Snyk escanea los paquetes del sistema operativo instalados en la imagen base (<code>eclipse-temurin:17-jre</code>) buscando CVEs conocidos. Una imagen base desactualizada puede tener vulnerabilidades aunque tu código sea perfecto.</p>
+
+<hr />
+
+<h2>📊 Paso 8 — Interpreta los resultados en SonarCloud</h2>
+<p>Después de que el pipeline ejecute el paso de SonarCloud, ve a <strong>https://sonarcloud.io</strong> y abre tu proyecto:</p>
+<pre class="text"><code>┌─────────────────────────────────────────────────────────┐
+│  Quality Gate: ✅ PASSED  (o ❌ FAILED)                   │
+├──────────┬──────────┬──────────┬──────────┬─────────────┤
+│  Bugs    │  Vulner. │  Smells  │ Coverage │ Duplication │
+│   0  A   │   0  A   │   5  B   │  78.5%   │   2.1%      │
+└──────────┴──────────┴──────────┴──────────┴─────────────┘</code></pre>
+
+<h3>¿Qué es el Quality Gate?</h3>
+<p>El Quality Gate es un conjunto de condiciones mínimas que tu código debe cumplir. El Quality Gate por defecto de SonarCloud ("Sonar way") requiere que el <strong>código nuevo</strong>:</p>
+<table>
+<thead><tr><th>Condición</th><th>Umbral</th></tr></thead>
+<tbody>
+<tr><td>Sin bugs nuevos</td><td>0</td></tr>
+<tr><td>Sin vulnerabilidades nuevas</td><td>0</td></tr>
+<tr><td>Cobertura en código nuevo</td><td>≥ 80%</td></tr>
+<tr><td>Duplicación en código nuevo</td><td>&lt; 3%</td></tr>
+</tbody>
+</table>
+
+<h3>Navega por el reporte</h3>
+<ol>
+<li>Click en <strong>"Issues"</strong> — lista todos los code smells, bugs y vulnerabilidades</li>
+<li>Click en un issue — muestra la línea exacta del código con explicación y cómo corregirlo</li>
+<li>Click en <strong>"Coverage"</strong> — muestra el reporte visual de JaCoCo integrado en la web</li>
+</ol>
+
+<hr />
+
+<h2>🔎 Paso 9 — Interpreta los resultados en Snyk</h2>
+
+<h3>Resultados en GitHub Actions</h3>
+<p>En la pestaña <strong>Actions</strong> de GitHub, expande el paso <strong>"Escaneo de vulnerabilidades Snyk"</strong>:</p>
+<pre class="text"><code>Testing bdget...
+
+✗ High severity vulnerability found in com.oracle.database.jdbc:ojdbc11
+  Description: Improper Input Validation
+  Info: https://security.snyk.io/vuln/SNYK-JAVA-...
+  Introduced through: com.oracle.database.jdbc:ojdbc11@21.x.x
+  Fixed in: 21.y.y (si existe versión corregida)
+
+Tested 42 dependencies for known issues, found 1 issue.</code></pre>
+
+<h3>Resultados en el dashboard de Snyk</h3>
+<ol>
+<li>Ingresa a <strong>https://snyk.io</strong> → <strong>Projects</strong></li>
+<li>Verás tu repositorio <code>bdget</code> listado con el número de vulnerabilidades</li>
+<li>Click en el proyecto → verás el detalle de cada CVE</li>
+</ol>
+<table>
+<thead><tr><th>Campo</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><strong>Severity</strong></td><td>Critical / High / Medium / Low</td></tr>
+<tr><td><strong>CVE</strong></td><td>Identificador oficial (ej: CVE-2023-XXXXX)</td></tr>
+<tr><td><strong>Introduced through</strong></td><td>Cuál dependencia de tu <code>pom.xml</code> lo trae</td></tr>
+<tr><td><strong>Fixed in</strong></td><td>Versión donde fue corregido (si existe)</td></tr>
+<tr><td><strong>Is upgradeable</strong></td><td>Si Snyk puede aplicar el fix automáticamente</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>🚀 Paso 10 — Ejecuta el pipeline completo</h2>
+<p>Una vez que tienes todos los secrets configurados y el YAML actualizado:</p>
+<pre class="bash"><code>git add .github/workflows/main.yml pom.xml
+git commit -m "feat: integra SonarCloud y Snyk en el pipeline CI"
+git push origin main</code></pre>
+<p>Ve a la pestaña <strong>Actions</strong> de tu repositorio y observa la ejecución:</p>
+<pre class="text"><code>✅  Checkout del repositorio          ~5s
+✅  Configurar Java 17                ~15s
+✅  Ejecutar tests                    ~60s
+✅  Subir reporte JaCoCo              ~5s   → artefacto disponible
+✅  Análisis SonarCloud               ~90s  → resultados en sonarcloud.io
+✅  Escaneo Snyk (dependencias)       ~30s  → resultados en snyk.io
+✅  Build del proyecto                ~30s
+✅  Login en DockerHub                ~5s
+✅  Build de la imagen Docker         ~120s
+✅  Escaneo Snyk (imagen Docker)      ~45s  → resultados en snyk.io
+✅  Push de la imagen a DockerHub     ~30s</code></pre>
+<blockquote><p>⏱️ <strong>El pipeline completo tarda ~7-10 minutos</strong> la primera vez por las descargas. Las siguientes ejecuciones son más rápidas gracias al caché de Maven.</p></blockquote>
+
+<hr />
+
+<h2>🛑 Solución de problemas frecuentes</h2>
+
+<h3>SonarCloud falla con "Project not found"</h3>
+<p>Verifica que el <code>SONAR_PROJECT_KEY</code> en el pipeline coincide exactamente con el que muestra SonarCloud (sensible a mayúsculas y guiones bajos).</p>
+<pre class="bash"><code># Formato típico: organizacion_nombre-repo
+# Ejemplo:        miusuario_bdget</code></pre>
+
+<h3>SonarCloud falla — <code>fetch-depth</code> incorrecto</h3>
+<p>Asegúrate de que el step de checkout tiene <code>fetch-depth: 0</code> exactamente:</p>
+<pre class="yaml"><code>- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0</code></pre>
+
+<h3>Snyk falla con "Missing SNYK_TOKEN"</h3>
+<p>Verifica que el secret <code>SNYK_TOKEN</code> está configurado en GitHub y que el nombre en el YAML coincide exactamente (sensible a mayúsculas).</p>
+
+<h3>Snyk reporta muchas vulnerabilidades en la imagen Docker</h3>
+<p>La imagen base <code>eclipse-temurin:17-jre</code> puede tener vulnerabilidades en paquetes del SO. Usa la variante Alpine que tiene menos paquetes:</p>
+<pre class="text"><code># En Dockerfile, reemplaza:
+FROM eclipse-temurin:17-jre
+# Por la variante Alpine (menos CVEs):
+FROM eclipse-temurin:17-jre-alpine</code></pre>
+
+<h3>Quality Gate de SonarCloud falla por cobertura baja</h3>
+<p>SonarCloud requiere ≥ 80% de cobertura en código nuevo. Revisa el reporte local y agrega más tests:</p>
+<pre class="bash"><code>mvn test
+open target/site/jacoco/index.html   # identifica clases con baja cobertura
+# agrega tests → git push</code></pre>
+
+<hr />
+
+<h2>📊 Resumen de comandos</h2>
+<table>
+<thead><tr><th>Acción</th><th>Comando</th></tr></thead>
+<tbody>
+<tr><td>Ejecutar tests + cobertura</td><td><code>mvn test</code></td></tr>
+<tr><td>Ejecutar análisis Sonar local</td><td><code>mvn sonar:sonar -Dsonar.token=TU_TOKEN</code></td></tr>
+<tr><td>Escanear dependencias con Snyk CLI</td><td><code>snyk test</code></td></tr>
+<tr><td>Escanear imagen Docker con Snyk CLI</td><td><code>snyk container test usuario/bdget-app:latest</code></td></tr>
+<tr><td>Ver reporte JaCoCo local (macOS)</td><td><code>open target/site/jacoco/index.html</code></td></tr>
+<tr><td>Limpiar y recompilar todo</td><td><code>mvn clean test</code></td></tr>
+<tr><td>Publicar cambios al pipeline</td><td><code>git add . &amp;&amp; git commit -m "msg" &amp;&amp; git push</code></td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>✅ Lista de verificación — entregables</h2>
+<p>Al terminar la actividad debes tener evidencia de cada punto:</p>
+<ul class="checklist">
+<li>Captura del pipeline en GitHub Actions con <strong>todos los pasos en verde</strong> ✅</li>
+<li>Captura del <strong>dashboard de SonarCloud</strong> mostrando el Quality Gate y las métricas (Bugs, Vulnerabilities, Coverage)</li>
+<li>Captura del reporte de <strong>Issues en SonarCloud</strong> (aunque sea con 0 issues)</li>
+<li>Captura del <strong>reporte de Snyk</strong> en GitHub Actions — resultado del escaneo de <strong>dependencias Maven</strong></li>
+<li>Captura del <strong>reporte de Snyk</strong> en GitHub Actions — resultado del escaneo de la <strong>imagen Docker</strong></li>
+<li>Captura de la sección <strong>Artifacts</strong> en GitHub Actions con el artefacto <code>jacoco-report</code> disponible</li>
+<li>Captura de los <strong>Secrets configurados</strong> en GitHub (Settings → Secrets → Actions) — sin mostrar los valores</li>
+</ul>
+
+<div class="footer">
+  Guía del Estudiante — Asignatura DevOps · Actividad 2.4 · DUOC UC &nbsp;|&nbsp; Made with IBM Bob
+</div>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.bdget.BdgetApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.243 s -- in com.example.bdget.BdgetApplicationTests

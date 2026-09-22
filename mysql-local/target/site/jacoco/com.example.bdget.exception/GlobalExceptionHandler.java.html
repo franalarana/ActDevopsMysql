@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bdget</a> &gt; <a href="index.source.html" class="el_package">com.example.bdget.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.example.bdget.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Intercepta todas las excepciones lanzadas en los controllers
+ * y devuelve respuestas JSON estructuradas en lugar de páginas de error.
+ */
+@ControllerAdvice
+<span class="fc" id="L18">public class GlobalExceptionHandler {</span>
+
+    // Errores de validación (@Valid falla en el body del request)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;Object&gt; handleValidationException(MethodArgumentNotValidException ex) {
+<span class="nc" id="L23">        Map&lt;String, String&gt; fieldErrors = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L24">        ex.getBindingResult().getFieldErrors().forEach(error -&gt;</span>
+<span class="nc" id="L25">            fieldErrors.put(error.getField(), error.getDefaultMessage())</span>
+        );
+
+<span class="nc" id="L28">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L29">        response.put(&quot;timestamp&quot;, LocalDateTime.now());</span>
+<span class="nc" id="L30">        response.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="nc" id="L31">        response.put(&quot;errors&quot;, fieldErrors);</span>
+
+<span class="nc" id="L33">        return new ResponseEntity&lt;&gt;(response, HttpStatus.BAD_REQUEST);</span>
+    }
+
+    // Errores de lógica de negocio (RuntimeException)
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity&lt;Object&gt; handleRuntimeException(RuntimeException ex) {
+<span class="nc" id="L39">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L40">        response.put(&quot;timestamp&quot;, LocalDateTime.now());</span>
+<span class="nc" id="L41">        response.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="nc" id="L42">        response.put(&quot;message&quot;, ex.getMessage());</span>
+
+<span class="nc" id="L44">        return new ResponseEntity&lt;&gt;(response, HttpStatus.BAD_REQUEST);</span>
+    }
+
+    // Cualquier otro error inesperado
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;Object&gt; handleGeneralException(Exception ex) {
+<span class="nc" id="L50">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L51">        response.put(&quot;timestamp&quot;, LocalDateTime.now());</span>
+<span class="nc" id="L52">        response.put(&quot;status&quot;, HttpStatus.INTERNAL_SERVER_ERROR.value());</span>
+<span class="nc" id="L53">        response.put(&quot;message&quot;, &quot;Ocurrió un error inesperado&quot;);</span>
+<span class="nc" id="L54">        response.put(&quot;details&quot;, ex.getMessage());</span>
+
+<span class="nc" id="L56">        return new ResponseEntity&lt;&gt;(response, HttpStatus.INTERNAL_SERVER_ERROR);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,4 @@
+com/example/bdget/model/StudentModelTest.class
+com/example/bdget/BdgetApplicationTests.class
+com/example/bdget/controller/StudentControllerTest.class
+com/example/bdget/service/StudentServiceImplTest.class
